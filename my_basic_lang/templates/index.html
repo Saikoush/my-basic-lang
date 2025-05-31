@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Mini BASIC Interpreter</title>
+    <link href="/static/style.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <h1>Mini BASIC Interpreter</h1>
+        <form action="/run" method="post">
+            <textarea name="code" rows="10" cols="50" placeholder="Write your code here...">{{ code }}</textarea>
+            <br />
+            <button type="submit">Run</button>
+        </form>
+        <h2>Output:</h2>
+        <pre>{{ output }}</pre>
+    </div>
+</body>
+</html>

@@ -1,0 +1,13 @@
+LET x = 10
+LET y = 20
+IF x < y THEN
+    PRINT x
+ELSE
+    PRINT y
+END
+
+LET i = 0
+WHILE i < 5 DO
+    PRINT i
+    LET i = i + 1
+END

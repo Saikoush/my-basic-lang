@@ -1,0 +1,44 @@
+import re
+
+TOKEN_SPECIFICATION = [
+    ('NUMBER',  r'\d+'),
+    ('LET',     r'LET\b'),
+    ('PRINT',   r'PRINT\b'),
+    ('IDENT',   r'[A-Za-z_][A-Za-z0-9_]*'),
+    ('EQ',      r'='),
+    ('PLUS',    r'\+'),
+    ('MINUS',   r'-'),
+    ('MUL',     r'\*'),
+    ('DIV',     r'/'),
+    ('NEWLINE', r'\n'),
+    ('SKIP',    r'[ \t]+'),
+    ('MISMATCH',r'.'),
+]
+
+master_regex = '|'.join(f'(?P<{name}>{pattern})' for name, pattern in TOKEN_SPECIFICATION)
+token_re = re.compile(master_regex)
+
+def tokenize(code):
+    tokens = []
+    for mo in token_re.finditer(code):
+        kind = mo.lastgroup
+        value = mo.group()
+        if kind == 'NUMBER':
+            tokens.append(('NUMBER', int(value)))
+        elif kind in ('LET', 'PRINT', 'IDENT', 'EQ', 'PLUS', 'MINUS', 'MUL', 'DIV'):
+            tokens.append((kind, value))
+        elif kind == 'NEWLINE' or kind == 'SKIP':
+            continue
+        elif kind == 'MISMATCH':
+            raise SyntaxError(f'Unexpected character: {value}')
+    return tokens
+
+# Test input
+code = '''LET a = 1
+PRINT a'''
+
+try:
+    tokens = tokenize(code)
+    print("Tokens:", tokens)
+except SyntaxError as e:
+    print("Lexer error:", e)
